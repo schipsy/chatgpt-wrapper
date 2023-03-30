@@ -18,6 +18,13 @@ import chatgpt_wrapper.core.constants as constants
 
 GEN_TITLE_TIMEOUT = 5000
 
+class ChatGPTLLM:
+    def __init__(self, chatgpt):
+        self.chatgpt = chatgpt
+
+    def __call__(self):
+        return self.chatgpt.ask()
+
 class AsyncChatGPT(Backend):
     """
     A ChatGPT interface that uses Playwright to run a browser,
@@ -32,6 +39,7 @@ class AsyncChatGPT(Backend):
 
     def __init__(self, config=None):
         super().__init__(config)
+        self.llm_class = ChatGPTLLM(self)
         self.play = None
         self.user_data_dir = None
         self.page = None
